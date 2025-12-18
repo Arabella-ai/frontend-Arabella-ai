@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { api } from '@/lib/api';
 
 interface ImageUploadProps {
@@ -124,11 +124,11 @@ export function ImageUpload({ value, onChange, label = 'Upload Image', className
   };
 
   // Update preview when value changes externally
-  useState(() => {
+  useEffect(() => {
     if (value && value !== preview) {
       setPreview(value);
     }
-  });
+  }, [value, preview]);
 
   return (
     <div className={className}>
