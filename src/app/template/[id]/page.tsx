@@ -320,15 +320,16 @@ export default function TemplatePage() {
                   Video Description
                 </label>
                 <span className="text-white/40 text-sm">
-                  {prompt.length}/500
+                  {prompt.length}/5000
                 </span>
               </div>
 
               <div className="glass-card p-4 lg:p-6">
                 <textarea
                   value={prompt}
-                  onChange={(e) => setPrompt(e.target.value.slice(0, 500))}
+                  onChange={(e) => setPrompt(e.target.value.slice(0, 5000))}
                   placeholder="Describe your video in detail..."
+                  maxLength={5000}
                   className="w-full h-32 lg:h-40 bg-transparent text-white placeholder-white/40 resize-none focus:outline-none text-sm lg:text-base"
                 />
               </div>
