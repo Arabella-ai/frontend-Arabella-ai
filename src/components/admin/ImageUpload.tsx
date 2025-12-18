@@ -3,6 +3,8 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { api } from '@/lib/api';
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || '/api/v1';
+
 interface ImageUploadProps {
   value?: string;
   onChange: (url: string) => void;
@@ -40,11 +42,16 @@ export function ImageUpload({ value, onChange, label = 'Upload Image', className
       formData.append('file', file);
 
       // Upload to backend
-      const response = await fetch('/api/v1/admin/upload/image', {
+      const token = api.getAccessToken();
+      const headers: HeadersInit = {};
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+      // Don't set Content-Type for FormData - browser will set it with boundary
+
+      const response = await fetch(`${API_BASE_URL}/admin/upload/image`, {
         method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${api.getAccessToken()}`,
-        },
+        headers,
         body: formData,
       });
 
