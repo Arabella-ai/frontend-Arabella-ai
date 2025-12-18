@@ -9,23 +9,31 @@ This project follows Clean Architecture principles:
 ```
 frontend/
 ├── src/
-│   ├── app/                # Next.js App Router pages
-│   │   ├── (main)/         # Main application routes
-│   │   ├── admin/          # Admin panel routes
-│   │   └── template/       # Template detail pages
-│   ├── components/         # React components
-│   │   ├── auth/           # Authentication components
-│   │   ├── layout/         # Layout components
-│   │   ├── profile/        # Profile components
-│   │   ├── templates/      # Template components
-│   │   ├── ui/             # UI components
-│   │   └── video/          # Video components
-│   ├── contexts/           # React contexts (Auth)
-│   ├── hooks/              # Custom React hooks
-│   ├── lib/                # Utilities and API clients
-│   └── types/              # TypeScript type definitions
-├── public/                 # Static assets
-└── scripts/                 # Build and deployment scripts
+│   ├── app/                    # Next.js App Router (Presentation Layer)
+│   │   ├── (main)/            # Main application routes
+│   │   ├── admin/             # Admin panel routes
+│   │   └── template/          # Template detail pages
+│   ├── presentation/          # Presentation Layer
+│   │   └── components/        # React components
+│   │       ├── auth/          # Authentication components
+│   │       ├── layout/        # Layout components
+│   │       ├── profile/       # Profile components
+│   │       ├── templates/     # Template components
+│   │       ├── ui/            # UI components
+│   │       └── video/         # Video components
+│   ├── application/           # Application Layer
+│   │   ├── contexts/          # React contexts (Auth)
+│   │   └── hooks/             # Custom React hooks
+│   ├── domain/                # Domain Layer
+│   │   └── types/             # TypeScript type definitions & entities
+│   ├── infrastructure/        # Infrastructure Layer
+│   │   └── lib/               # External services & utilities
+│   │       ├── api.ts         # API client
+│   │       ├── image-utils.ts # Image utilities
+│   │       └── utils.ts       # General utilities
+│   └── lib/                   # Legacy lib (to be migrated)
+├── public/                     # Static assets
+└── scripts/                    # Build and deployment scripts
 ```
 
 ## Setup
