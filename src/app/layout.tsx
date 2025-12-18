@@ -10,8 +10,8 @@ export const metadata: Metadata = {
   description: 'Create and edit your love videos and pictures with AI',
   manifest: '/manifest.json',
   icons: {
-    icon: '/logo.jpg',
-    apple: '/logo.jpg',
+    icon: '/logo.png',
+    apple: '/logo.png',
   },
 };
 
