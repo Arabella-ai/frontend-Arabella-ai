@@ -15,7 +15,7 @@ const templateSchema = z.object({
   name: z.string().min(1, 'Name is required'),
   category: z.string().min(1, 'Category is required'),
   description: z.string().min(1, 'Description is required'),
-  base_prompt: z.string().min(1, 'Base prompt is required'),
+  base_prompt: z.string().min(1, 'Base prompt is required').max(5000, 'Base prompt must be less than 5000 characters'),
   thumbnail_url: z.string().optional(),
   preview_video_url: z.string().optional(),
   credit_cost: z.number().min(1, 'Credit cost must be at least 1'),
