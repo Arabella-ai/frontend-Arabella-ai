@@ -148,22 +148,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } catch (error: any) {
       console.error('[Auth] Failed to load user profile:', error);
       
-      // Check if it's an authentication error
-      const isAuthError = error?.message?.includes('expired') || 
-                         error?.message?.includes('Authentication') ||
-                         error?.message?.includes('Session');
-      
-      if (isAuthError) {
-        console.log('[Auth] Authentication error detected, clearing tokens');
-        api.setAccessToken(null);
-        if (typeof window !== 'undefined') {
-          localStorage.removeItem('refresh_token');
-        }
-        saveUserToStorage(null);
-        setState({ user: null, isLoading: false, isAuthenticated: false });
-        return;
-      }
-      
+      // NEVER delete tokens - keep them even if there's an error
       // Always preserve existing user data on error, or try to load from cache
       setState(prev => {
         if (prev.user) {
@@ -178,9 +163,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           console.log('[Auth] Restored user from cache after API error');
           return { user: cachedUser, isLoading: false, isAuthenticated: true };
         }
-        // Only clear if we don't have cached user data either
-        console.log('[Auth] No cached user found, clearing state');
-        api.setAccessToken(null);
+        // Keep token even if we don't have cached user data
+        console.log('[Auth] No cached user found, but keeping token');
         return { user: null, isLoading: false, isAuthenticated: false };
       });
     }

@@ -77,7 +77,28 @@ export default function TemplatePage() {
         setViewState('completed');
       } else if (job.status === 'failed') {
         setViewState('edit');
-        alert('Video generation failed: ' + (job.error_message || 'Unknown error'));
+        // Extract user-friendly error message
+        let errorMessage = job.error_message || 'Unknown error';
+        
+        // Check if it's an inappropriate content error
+        if (errorMessage.includes('DatalnspectionFailed') || 
+            errorMessage.toLowerCase().includes('inappropriate content')) {
+          // Extract the user-friendly message if it exists
+          const inappropriateMatch = errorMessage.match(/Input data may contain inappropriate content[^.]*/i);
+          if (inappropriateMatch) {
+            errorMessage = inappropriateMatch[0];
+          } else {
+            errorMessage = 'Input data may contain inappropriate content. Please modify your prompt and try again.';
+          }
+        } else if (errorMessage.includes('DashScope error:')) {
+          // Extract the message part after "DashScope error: CODE - "
+          const match = errorMessage.match(/DashScope error: [^-]+ - (.+)/);
+          if (match && match[1]) {
+            errorMessage = match[1].trim();
+          }
+        }
+        
+        alert(errorMessage);
       } else {
         // Continue polling with 1 second interval
         setTimeout(() => pollJobStatus(jobId), 1000);
@@ -157,13 +178,43 @@ export default function TemplatePage() {
     } catch (error: any) {
       console.error('[Template] Video generation error:', error);
       
-      // Check if it's an authentication error
-      if (error?.message?.includes('expired') || error?.message?.includes('Authentication') || error?.message?.includes('Session')) {
-        // Show error to user
-        alert('Your session has expired. Please sign in again.');
-        // Optionally redirect to login
+      // Check if it's an authentication error (expired token, invalid token, etc.)
+      const isAuthError = error?.message?.includes('expired') || 
+                         error?.message?.includes('Authentication') || 
+                         error?.message?.includes('Session') ||
+                         error?.message?.includes('Invalid or expired token') ||
+                         error?.message?.includes('UNAUTHORIZED') ||
+                         error?.message?.includes('INVALID_TOKEN') ||
+                         error?.status === 401 ||
+                         error?.response?.status === 401;
+      
+      if (isAuthError) {
+        // Show user-friendly message about expired token
+        alert('Your authentication token has expired. Please sign in again to continue generating videos.');
+        // Don't delete the token - let the user decide what to do
         return;
       }
+      
+      // Check if it's an inappropriate content error
+      let errorMessage = error?.message || 'Video generation failed. Please try again.';
+      if (errorMessage.includes('DatalnspectionFailed') || 
+          errorMessage.toLowerCase().includes('inappropriate content')) {
+        // Extract the user-friendly message if it exists
+        const inappropriateMatch = errorMessage.match(/Input data may contain inappropriate content[^.]*/i);
+        if (inappropriateMatch) {
+          errorMessage = inappropriateMatch[0];
+        } else {
+          errorMessage = 'Input data may contain inappropriate content. Please modify your prompt and try again.';
+        }
+      } else if (errorMessage.includes('DashScope error:')) {
+        // Extract the message part after "DashScope error: CODE - "
+        const match = errorMessage.match(/DashScope error: [^-]+ - (.+)/);
+        if (match && match[1]) {
+          errorMessage = match[1].trim();
+        }
+      }
+      
+      alert(errorMessage);
       
       // Fall back to simulation for demo
       console.log('[Template] Falling back to simulation');
