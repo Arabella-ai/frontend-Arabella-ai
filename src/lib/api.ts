@@ -185,6 +185,24 @@ class ApiClient {
       method: 'DELETE',
     });
   }
+
+  // Admin user endpoints
+  async getUsers(page: number = 1, pageSize: number = 20): Promise<{ users: User[]; total: number; page: number; page_size: number; total_pages: number }> {
+    return this.request<{ users: User[]; total: number; page: number; page_size: number; total_pages: number }>(`/admin/users?page=${page}&page_size=${pageSize}`);
+  }
+
+  async updateUser(id: string, updates: Partial<User>): Promise<User> {
+    return this.request<User>(`/admin/users/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(updates),
+    });
+  }
+
+  async deleteUser(id: string): Promise<void> {
+    return this.request<void>(`/admin/users/${id}`, {
+      method: 'DELETE',
+    });
+  }
 }
 
 export const api = new ApiClient();

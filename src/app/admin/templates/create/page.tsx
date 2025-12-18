@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui';
+import { ImageUpload } from '@/components/admin/ImageUpload';
 
 const templateSchema = z.object({
   name: z.string().min(1, 'Name is required'),
@@ -38,6 +39,8 @@ export default function CreateTemplate() {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
+    setValue,
   } = useForm<any>({
     resolver: zodResolver(templateSchema) as any,
     defaultValues: {
@@ -144,11 +147,14 @@ export default function CreateTemplate() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">Thumbnail URL</label>
+              <ImageUpload
+                label="Thumbnail Image"
+                value={watch('thumbnail_url')}
+                onChange={(url) => setValue('thumbnail_url', url)}
+              />
               <input
                 {...register('thumbnail_url')}
-                type="url"
-                className="w-full px-4 py-2 bg-white/10 rounded-lg border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                type="hidden"
               />
               {errors.thumbnail_url && (
                 <p className="text-red-400 text-sm mt-1">{(errors.thumbnail_url as any)?.message}</p>

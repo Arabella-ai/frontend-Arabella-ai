@@ -112,7 +112,7 @@ export default function HomePage() {
         <div className="flex items-center justify-between h-16 lg:h-20 px-4 lg:px-8 max-w-7xl mx-auto">
           <div className="lg:hidden flex items-center justify-center flex-1 gap-2">
             <Image
-              src="/logo.jpg"
+              src="/logo.png"
               alt="Arabella"
               width={32}
               height={32}
@@ -123,7 +123,7 @@ export default function HomePage() {
           </div>
           <div className="hidden lg:flex items-center gap-3">
             <Image
-              src="/logo.jpg"
+              src="/logo.png"
               alt="Arabella"
               width={40}
               height={40}

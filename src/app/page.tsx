@@ -127,7 +127,7 @@ export default function WelcomePage() {
         <div className="mb-4 flex flex-col items-center">
           <div className="mb-4">
             <Image
-              src="/logo.jpg"
+              src="/logo.png"
               alt="Arabella Logo"
               width={120}
               height={120}

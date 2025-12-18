@@ -8,6 +8,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui';
 import { api } from '@/lib/api';
+import { ImageUpload } from '@/components/admin/ImageUpload';
 import type { Template } from '@/types';
 
 const templateSchema = z.object({
@@ -62,6 +63,8 @@ export default function EditTemplate() {
     handleSubmit,
     formState: { errors },
     reset,
+    watch,
+    setValue,
   } = useForm<any>({
     resolver: zodResolver(templateSchema) as any,
     refineCoreProps: {
@@ -198,12 +201,18 @@ export default function EditTemplate() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">Thumbnail URL</label>
+              <ImageUpload
+                label="Thumbnail Image"
+                value={watch('thumbnail_url')}
+                onChange={(url) => setValue('thumbnail_url', url)}
+              />
               <input
                 {...register('thumbnail_url')}
-                type="url"
-                className="w-full px-4 py-2 bg-white/10 rounded-lg border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                type="hidden"
               />
+              {errors.thumbnail_url && (
+                <p className="text-red-400 text-sm mt-1">{(errors.thumbnail_url as any)?.message}</p>
+              )}
             </div>
 
             <div>

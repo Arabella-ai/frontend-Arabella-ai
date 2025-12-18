@@ -25,7 +25,7 @@ export function Sidebar() {
       <div className="flex items-center gap-3 px-6 py-8 border-b border-white/10">
         <div className="flex items-center justify-center w-10 h-10 rounded-xl overflow-hidden bg-gradient-to-br from-primary-500 to-cyan-500 shadow-lg shadow-primary-500/30">
           <Image
-            src="/logo.jpg"
+            src="/logo.png"
             alt="Arabella Logo"
             width={40}
             height={40}
