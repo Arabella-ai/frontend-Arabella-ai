@@ -1,47 +1,54 @@
 #!/bin/bash
-# Deployment script for frontend
-# This script builds and restarts the frontend service
+# Frontend Deployment Script
+# Rebuilds and restarts the frontend service
 
 set -e
 
 echo "🚀 Deploying Arabella Frontend..."
 echo ""
 
+# Navigate to frontend directory
 cd /var/www/arabella/frontend
 
+# Clean previous build
+echo "🧹 Cleaning previous build..."
+rm -rf .next
+
 # Build the application
-echo "📦 Building Next.js app..."
+echo "📦 Building frontend..."
 npm run build
 
-if [ $? -eq 0 ]; then
-    echo "✅ Build successful!"
-    echo ""
-    
-    # Check if service is running
-    if pgrep -f "next-server" > /dev/null; then
-        echo "🔄 Restarting frontend service..."
-        echo ""
-        echo "⚠️  To restart the service, run one of:"
-        echo "   sudo systemctl restart arabella-frontend"
-        echo "   OR"
-        echo "   pkill -f 'next-server' && cd /var/www/arabella/frontend && npm run start &"
-        echo ""
-        echo "📋 Current running processes:"
-        ps aux | grep -E "next|node.*3000" | grep -v grep || echo "   No Next.js processes found"
-    else
-        echo "⚠️  Frontend service is not running. Start it with:"
-        echo "   cd /var/www/arabella/frontend && npm run start &"
-    fi
-    
-    echo ""
-    echo "✅ Deployment ready! Restart the service to apply changes."
-    echo ""
-    echo "📋 Check logs:"
-    echo "   sudo journalctl -u arabella-frontend -f"
-    echo ""
-else
-    echo "❌ Build failed! Check errors above."
+if [ $? -ne 0 ]; then
+    echo "❌ Build failed!"
     exit 1
 fi
 
+# Stop existing service
+echo "🛑 Stopping existing service..."
+ps aux | grep "next-server" | grep -v grep | awk '{print $2}' | xargs kill -9 2>/dev/null || true
+sleep 2
 
+# Start service
+echo "▶️  Starting frontend service..."
+nohup npm run start > /tmp/arabella-frontend.log 2>&1 &
+sleep 6
+
+# Verify health
+echo "🏥 Checking health..."
+HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:3000 2>/dev/null)
+if [ "$HTTP_CODE" = "200" ]; then
+    echo "✅ Frontend deployed successfully!"
+    echo "   HTTP Status: $HTTP_CODE"
+else
+    echo "❌ Frontend health check failed!"
+    echo "   HTTP Status: $HTTP_CODE"
+    echo "   Check logs: tail -f /tmp/arabella-frontend.log"
+    exit 1
+fi
+
+echo ""
+echo "📊 Service Status:"
+ps aux | grep next-server | grep -v grep | head -1
+
+echo ""
+echo "✅ Deployment complete!"
