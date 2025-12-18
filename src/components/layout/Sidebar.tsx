@@ -1,8 +1,9 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { HomeIcon, UserIcon, SparklesIcon } from '@/components/ui';
+import { HomeIcon, UserIcon } from '@/components/ui';
 
 interface NavItem {
   href: string;
@@ -22,8 +23,15 @@ export function Sidebar() {
     <div className="flex flex-col h-full bg-gradient-to-b from-dark-950 via-dark-900 to-dark-950 border-r border-white/10">
       {/* Logo/Brand */}
       <div className="flex items-center gap-3 px-6 py-8 border-b border-white/10">
-        <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-cyan-500 shadow-lg shadow-primary-500/30">
-          <SparklesIcon className="w-6 h-6 text-white" />
+        <div className="flex items-center justify-center w-10 h-10 rounded-xl overflow-hidden bg-gradient-to-br from-primary-500 to-cyan-500 shadow-lg shadow-primary-500/30">
+          <Image
+            src="/logo.jpg"
+            alt="Arabella Logo"
+            width={40}
+            height={40}
+            className="w-full h-full object-cover"
+            unoptimized
+          />
         </div>
         <div>
           <h1 className="text-xl font-bold text-white">Arabella</h1>

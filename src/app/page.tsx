@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -123,7 +124,17 @@ export default function WelcomePage() {
       {/* Content Container */}
       <div className="flex-1 flex flex-col justify-center px-8 max-w-lg mx-auto w-full">
         {/* Logo & Branding */}
-        <div className="mb-4">
+        <div className="mb-4 flex flex-col items-center">
+          <div className="mb-4">
+            <Image
+              src="/logo.jpg"
+              alt="Arabella Logo"
+              width={120}
+              height={120}
+              className="rounded-2xl shadow-2xl"
+              unoptimized
+            />
+          </div>
           <h1 className="text-5xl font-light text-white tracking-tight">
             Arabella{' '}
             <span className="inline-flex items-center justify-center w-12 h-8 border border-white/40 rounded-lg text-sm font-normal">

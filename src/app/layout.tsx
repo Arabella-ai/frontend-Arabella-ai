@@ -10,8 +10,8 @@ export const metadata: Metadata = {
   description: 'Create and edit your love videos and pictures with AI',
   manifest: '/manifest.json',
   icons: {
-    icon: '/favicon.ico',
-    apple: '/apple-touch-icon.png',
+    icon: '/logo.jpg',
+    apple: '/logo.jpg',
   },
 };
 
@@ -32,7 +32,8 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="manifest" href="/manifest.json" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/logo.jpg" />
+        <link rel="apple-touch-icon" href="/logo.jpg" />
         <script
           src="https://accounts.google.com/gsi/client"
           async

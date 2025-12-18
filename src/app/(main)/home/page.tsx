@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { TemplateGrid } from '@/components/templates/TemplateGrid';
 import { api } from '@/lib/api';
 import type { Template } from '@/types';
@@ -109,14 +110,32 @@ export default function HomePage() {
       {/* Header - Desktop optimized */}
       <header className="sticky top-0 z-40 bg-dark-950/90 backdrop-blur-lg border-b border-white/10">
         <div className="flex items-center justify-between h-16 lg:h-20 px-4 lg:px-8 max-w-7xl mx-auto">
-          <div className="lg:hidden flex items-center justify-center flex-1">
+          <div className="lg:hidden flex items-center justify-center flex-1 gap-2">
+            <Image
+              src="/logo.jpg"
+              alt="Arabella"
+              width={32}
+              height={32}
+              className="rounded-lg"
+              unoptimized
+            />
             <h1 className="text-xl font-semibold text-white">Arabella</h1>
           </div>
-          <div className="hidden lg:flex items-center gap-2">
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-primary-400 to-cyan-400 bg-clip-text text-transparent">
-              Arabella
-            </h1>
-            <span className="text-sm text-white/50">Video Generation</span>
+          <div className="hidden lg:flex items-center gap-3">
+            <Image
+              src="/logo.jpg"
+              alt="Arabella"
+              width={40}
+              height={40}
+              className="rounded-lg"
+              unoptimized
+            />
+            <div>
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-primary-400 to-cyan-400 bg-clip-text text-transparent">
+                Arabella
+              </h1>
+              <span className="text-xs text-white/50 block">Video Generation</span>
+            </div>
           </div>
           <div className="hidden lg:flex items-center gap-4">
             <span className="text-sm text-white/70">Create amazing videos with AI</span>
