@@ -192,7 +192,8 @@ export default function EditTemplate() {
               <label className="block text-sm font-medium mb-2">Base Prompt *</label>
               <textarea
                 {...register('base_prompt')}
-                rows={3}
+                rows={6}
+                maxLength={5000}
                 className="w-full px-4 py-2 bg-white/10 rounded-lg border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               {errors.base_prompt && (
