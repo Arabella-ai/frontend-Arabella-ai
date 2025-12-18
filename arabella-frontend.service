@@ -1,0 +1,27 @@
+[Unit]
+Description=Arabella Frontend (Next.js)
+After=network.target
+
+[Service]
+Type=simple
+User=pro
+Group=pro
+WorkingDirectory=/var/www/arabella/frontend
+Environment=NODE_ENV=production
+Environment=PORT=3000
+Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/go/bin
+ExecStart=/usr/bin/npm run start
+Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/go/bin:/var/www/arabella/frontend/node_modules/.bin
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=arabella-frontend
+
+# Security
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
+
